@@ -50,7 +50,7 @@ public class SudokuForYou extends javax.swing.JFrame {
        }
    }
    public void setSolutionLayout(){
-       if(solutionOfSudoku()==true){
+       if(solutionOfSudoku()==true){      // the if condition isn't being true.
             for(int i =0;i<N;i++){
            for(int j=0;j<N;j++){
            
@@ -63,7 +63,7 @@ public class SudokuForYou extends javax.swing.JFrame {
        }
        }
        else
-           JOptionPane.showMessageDialog(this.jFrame1, "Solution not found");
+           JOptionPane.showMessageDialog(this.jFrame1, "Solution not found");  // it is always showing the message "Solution not found"
    }
    boolean solutionOfSudoku(){
      

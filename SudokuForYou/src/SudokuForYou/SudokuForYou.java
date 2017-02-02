@@ -16,8 +16,8 @@ import javax.swing.border.BevelBorder;
  */
 public class SudokuForYou extends javax.swing.JFrame {
    static int N = 9;
-    int row;
-    int col;   
+   static int row = 0;
+    static int col = 0;   
    static int grid[][] = new int[][] {{3, 0, 6, 5, 0, 8, 4, 0, 0},
                                         {5, 2, 0, 0, 0, 0, 0, 0, 0},
                                         {0, 8, 7, 0, 0, 0, 0, 3, 1},
@@ -31,8 +31,6 @@ public class SudokuForYou extends javax.swing.JFrame {
                         
    
     public SudokuForYou() {
-        this.row = 0;
-        this.col = 0;
         initComponents();
         setLayout();
     }
@@ -49,12 +47,12 @@ public class SudokuForYou extends javax.swing.JFrame {
            }
        }
    }
-   public void setSolutionLayout(){
-       if(solutionOfSudoku()==true){
+   public void setSolutionLayout(int grid[][]){
+       if(solutionOfSudoku(grid)==true){
             for(int i =0;i<N;i++){
            for(int j=0;j<N;j++){
            
-               JLabel m = new JLabel("" +grid[row][col], JLabel.CENTER);
+               JLabel m = new JLabel("" +grid[i][j], JLabel.CENTER);
                
             m.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
             m.setFont(m.getFont().deriveFont(20f));
@@ -65,14 +63,16 @@ public class SudokuForYou extends javax.swing.JFrame {
        else
            JOptionPane.showMessageDialog(this.jFrame1, "Solution not found");
    }
-   boolean solutionOfSudoku(){
-     
-      if(!findUnassignedCell())
+   boolean solutionOfSudoku(int grid[][]){
+     int track = {0,0};
+      if(!findUnassignedCell(grid,row,col,track))
           return true;
+      row = track[0];
+      col = track[1];
       for(int num =1;num<=9;num++){
-          if(checkValidity(row,col,num)){
+          if(checkValidity(grid,row,col,num)){
               grid[row][col]=num;
-          if(solutionOfSudoku())
+          if(solutionOfSudoku(grid))
               return true;
           grid[row][col]=0;
           }
@@ -82,30 +82,33 @@ public class SudokuForYou extends javax.swing.JFrame {
      
    }
    
-   boolean findUnassignedCell(){
-        for(int i=0;i<N;i++){
-            for(int j=0;j<N;j++){
-                if(grid[i][j]==0)
-                    return true;
+   boolean findUnassignedCell(int [][]grid,int row,int col,int track[]){
+        for(row=0;i<N;i++){
+            for(col=0;j<N;j++){
+                if(grid[row][col]==0){
+                   track[0] = row;
+                   track[1] = col;
+                   return true;
+                }
             }
         }
         return false;
    }
-   boolean alreadyInRow(int num){
+   boolean alreadyInRow(int [][]grid,int row,int num){
        for(int i=0;i<N;i++){
            if(grid[row][i]==num)
                return true;
        }
        return false;
    }
-   boolean alreadyInCol(int num){
+   boolean alreadyInCol(int [][]grid,int col,int num){
        for(int i=0;i<N;i++){
            if(grid[i][col]==num)
                return true;
        }
        return false;
    }
-   boolean alreadyInBox(int boxRow,int boxCol,int num){
+   boolean alreadyInBox(int [][]grid,int boxRow,int boxCol,int num){
        for(int i=0;i<N;i++){
            for(int j=0;j<N;j++){
            if(grid[i+boxRow][j+boxCol]==num)
@@ -114,8 +117,8 @@ public class SudokuForYou extends javax.swing.JFrame {
        }
        return false;
    }
-   boolean checkValidity(int row,int col,int num){
-       return(!alreadyInRow(num) && !alreadyInCol(num) && !(alreadyInBox(row-row%3,col-col%3,num)));
+   boolean checkValidity(int [][]grid,int row,int col,int num){
+       return(!alreadyInRow(grid,row,num) && !alreadyInCol(grid,col,num) && !(alreadyInBox(grid,row-row%3,col-col%3,num)));
    }
     
     @SuppressWarnings("unchecked")
@@ -147,7 +150,7 @@ public class SudokuForYou extends javax.swing.JFrame {
 
         jPanel1.setLayout(new java.awt.GridLayout(9, 9, 2, 2));
 
-        jButton1.setText("jButton1");
+        jButton1.setText("Solution");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);

@@ -35,7 +35,7 @@ public class SudokuForYou extends javax.swing.JFrame {
         initComponents();
         setLayout();
     }
-    
+   // method to print the sudoku board on grid layout 
    private void setLayout(){
        for(int i =0;i<N;i++){
            for(int j=0;j<N;j++){
@@ -48,6 +48,7 @@ public class SudokuForYou extends javax.swing.JFrame {
            }
        }
    }
+   // method to print the solution of sudoku on gridlayout
    public void setSolutionLayout(int grid[][],int row,int col){
        if(solutionOfSudoku(grid,row,col)){
             for(int i =0;i<N;i++){
@@ -64,6 +65,7 @@ public class SudokuForYou extends javax.swing.JFrame {
        else
            JOptionPane.showMessageDialog(this.jFrame1, "Solution not found");
    }
+   // Backtracking strategy to solve the sudoku board
    boolean solutionOfSudoku(int grid[][],int row,int col){
      
       if(!findUnassignedCell(grid,row,col,track))
@@ -82,42 +84,46 @@ public class SudokuForYou extends javax.swing.JFrame {
       return false;
      
    }
-   
+   // Method to find unassigned cells in the grid layout.
    boolean findUnassignedCell(int grid[][],int row,int col,int track[]){
         for(int i=0;i<N;i++){
             for(int j=0;j<N;j++){
-                if(grid[i][j]==0){
-                   row=track[0];
-                   col=track[1];
-                    return true;
+                if(grid[i][j]==0){   //Unassigned cell is denoted as 0
+                   row=track[0];     // the value of track[0] is assigned to row
+                   col=track[1];        // the value of track[0] is assigned to col
+                    return true;       //returns true if there is an unassigned cell
                }
             }
         }
-        return false;
+        return false;                //returns true if there is not an unassigned cell
    }
+   // method to check if the number is already assigned in a row
    boolean alreadyInRow(int [][]grid,int row,int num){
        for(int i=0;i<N;i++){
-           if(grid[row][i]==num)
-              return true;
+           if(grid[row][i]==num)    
+              return true;                      //returns true if the number is already present in the row at i_th column
        }
        return false;
    }
+   // method to check if the number is already assigned in col
    boolean alreadyInCol(int [][]grid,int col,int num){
        for(int i=0;i<N;i++){
            if(grid[i][col]==num)
-               return true;
+               return true;                     //returns true if the number is already present in the col at i_th row
        }
        return false;
    }
+   // method to check if the munber is already assigned into 3x3 box
    boolean alreadyInBox(int grid[][],int boxRow,int boxCol,int num){
        for(int i=0;i<N;i++){
            for(int j=0;j<N;j++){
            if(grid[i+boxRow][j+boxCol]==num)
-               return true;
+               return true;                       //returns true if the number is already present in 3x3 box
            }
        }
        return false;
    }
+   // Method to check the validity of a number 
    boolean checkValidity(int grid[][],int row,int col,int num){
        return(!alreadyInRow(num) && !alreadyInCol(num) && !(alreadyInBox(row-row%3,col-col%3,num)));
    }
@@ -151,7 +157,7 @@ public class SudokuForYou extends javax.swing.JFrame {
 
         jPanel1.setLayout(new java.awt.GridLayout(9, 9, 2, 2));
 
-        jButton1.setText("jButton1");
+        jButton1.setText("Solution");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);

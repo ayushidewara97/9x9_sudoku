@@ -115,8 +115,8 @@ public class SudokuForYou extends javax.swing.JFrame {
    }
    // method to check if the munber is already assigned into 3x3 box
    boolean alreadyInBox(int grid[][],int boxRow,int boxCol,int num){
-       for(int i=0;i<N;i++){
-           for(int j=0;j<N;j++){
+       for(int i=0;i<3;i++){
+           for(int j=0;j<3;j++){
            if(grid[i+boxRow][j+boxCol]==num)
                return true;                       //returns true if the number is already present in 3x3 box
            }
